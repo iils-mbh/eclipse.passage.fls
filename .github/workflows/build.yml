@@ -10,7 +10,7 @@
 # Contributors:
 #     Alexander Fedorov (ArSysOp) - initial API and implementation
 ###############################################################################
-name: CI
+name: Build and deploy
 
 on:
   push:
@@ -18,11 +18,17 @@ on:
   pull_request:
     branches: [ main ]
 
+concurrency:
+  group: "build"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        path: 'repo'
     - name: Set up JDK
       uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
       with:
@@ -34,7 +40,31 @@ jobs:
       with:
         maven-version: 3.9.11
     - name: Build with Maven
+      working-directory: 'repo'
       run: >-
         mvn clean verify
         --no-transfer-progress --batch-mode --update-snapshots
         -P baseline-check
+    - name: Name repository
+      run: |
+        mkdir -p gh-pages/snapshots/latest
+        mv repo/releng/org.eclipse.passage.fls.repository/target/repository/* gh-pages/snapshots/latest
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: gh-pages
+
+  # Deploy job
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
