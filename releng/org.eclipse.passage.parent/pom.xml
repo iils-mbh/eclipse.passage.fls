@@ -33,7 +33,6 @@
 		<build.label>${unqualifiedVersion}.${buildQualifier}</build.label>
 
 		<tycho.scmUrl>scm:git:https://github.com/iils-mbh/eclipse.passage.fls.git</tycho.scmUrl>
-		<tycho.version>4.0.8</tycho.version>
 
 		<eclipserun-repo>https://download.eclipse.org/eclipse/updates/4.32/R-4.32-202406010610/</eclipserun-repo>
 		<released.baseline>https://download.eclipse.org/passage/updates/release/3.0.0/</released.baseline>
