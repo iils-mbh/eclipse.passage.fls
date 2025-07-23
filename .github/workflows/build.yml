@@ -1,0 +1,94 @@
+###############################################################################
+# Copyright (c) 2025, 2025 IILS mbH and others
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License 2.0 which is available at
+# https://www.eclipse.org/legal/epl-2.0/.
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+# Contributors:
+#     Hannes Wellmann (IILS mbH) - initial API and implementation
+###############################################################################
+name: Build
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+  workflow_call:
+
+env:
+  MAVEN_ARGS: '--no-transfer-progress --batch-mode'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config: 
+          - { name: Linux,   os: ubuntu-latest  }
+          - { name: Windows, os: windows-latest }
+    runs-on: ${{ matrix.config.os }}
+    name: Build on ${{ matrix.config.name }}
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        fetch-depth: 0 # required for jgit timestamp provider to work
+    - name: Set up JDK
+      uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
+      with:
+        maven-version: 3.9.11
+    - name: Build with Maven
+      run: >-
+        mvn clean verify --threads 1C --update-snapshots
+        -P baseline-check
+
+    - name: Flatten P2 repository
+      if: ${{ matrix.config.name == 'Linux' }}
+      working-directory: releng/org.eclipse.passage.fls.repository/target/repository
+      run: |
+        set -x
+        # Move artifacts to repository root directory
+        for file in features/* plugins/*; do
+          target=$(echo $file | sed 's|/|_|')
+          mv $file $target
+        done
+        rm -r features plugins
+        # Modify mapping rules in (compressed) artifacts.xml file
+        JAR_FILE='artifacts.jar'
+        XML_FILE='artifacts.xml'
+        jar --extract "--file=${JAR_FILE}"
+        sed --in-place \
+          --expression='s|${repoUrl}/plugins/${id}_${version}.jar|${repoUrl}/plugins_${id}_${version}.jar|w changelog.txt' \
+          --expression='s|${repoUrl}/binary/${id}_${version}|${repoUrl}/binary_${id}_${version}|w changelog.txt' \
+          --expression='s|${repoUrl}/features/${id}_${version}.jar|${repoUrl}/features_${id}_${version}.jar|w changelog.txt' \
+          "${XML_FILE}"
+        if [[ $(cat changelog.txt | wc --lines) != 3 ]]; then
+          echo "::error ::Failed to adjust P2 artifact mapping rules"
+          exit 1
+        fi
+        rm changelog.txt
+        
+        jar --create --no-manifest --verbose --file=${JAR_FILE} "${XML_FILE}"
+        xz --extreme --force --keep --verbose "${XML_FILE}"
+        rm ${XML_FILE}
+
+    - name: Upload P2 repository
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      if: ${{ matrix.config.name == 'Linux' }}
+      with:
+        name: p2-repository
+        path: releng/org.eclipse.passage.fls.repository/target/repository/
+        retention-days: 2
+        if-no-files-found: error

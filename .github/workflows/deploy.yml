@@ -1,0 +1,54 @@
+###############################################################################
+# Copyright (c) 2025, 2025 IILS mbH and others
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License 2.0 which is available at
+# https://www.eclipse.org/legal/epl-2.0/.
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+# Contributors:
+#     Hannes Wellmann (IILS mbH) - initial API and implementation
+###############################################################################
+name: Deploy snapshot
+
+on:
+  workflow_run:
+    workflows: [ 'Build' ]
+    types: [ 'completed' ]
+    branches: [ 'main' ]
+
+# This job is split from the 'Build' job to ensure security
+permissions: {}
+
+concurrency:
+  group: 'deploy'
+  cancel-in-progress: true
+
+jobs:
+  deploy-snapshot:
+    if: ${{ github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+    - name: Download P2 snapshot repository
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      with:
+        name: p2-repository
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        run-id: ${{ github.event.workflow_run.id }}
+        path: 'repository'
+    - name: Create new snapshot pre-release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        snapshotTag='snapshot-latest'
+        git tag --force ${snapshotTag}
+        git push --force origin ${snapshotTag}
+        gh release delete ${snapshotTag} --yes || echo 'Ignore failure'
+        gh release create ${snapshotTag} --prerelease --latest=false \
+          --notes 'Snapshot of the current `main` branch build.' \
+          'repository/*'
