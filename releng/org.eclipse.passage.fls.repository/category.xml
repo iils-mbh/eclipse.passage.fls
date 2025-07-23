@@ -11,20 +11,14 @@
      ArSysOp - initial API and implementation
 -->
 <site>
-   <feature id="org.eclipse.passage.lic.compile.feature">
-      <category name="org.eclipse.passage.lic.category"/>
-   </feature>
-   <feature id="org.eclipse.passage.lic.execute.feature">
-      <category name="org.eclipse.passage.lic.category"/>
-   </feature>
-   <feature id="org.eclipse.passage.lic.define.feature">
-      <category name="org.eclipse.passage.lic.category"/>
-   </feature>
-   <feature id="org.eclipse.passage.lic.bc.feature">
+   <feature id="org.eclipse.passage.lic.net.feature">
       <category name="org.eclipse.passage.lic.category"/>
    </feature>
    <feature id="org.eclipse.passage.lic.jetty.feature">
       <category name="org.eclipse.passage.lic.category"/>
+   </feature>
+   <feature id="org.eclipse.passage.lbc.fls.feature">
+      <category name="org.eclipse.passage.lbc.category"/>
    </feature>
    <feature id="org.eclipse.passage.lbc.execute.feature">
       <category name="org.eclipse.passage.lbc.category"/>
