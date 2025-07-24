@@ -17,6 +17,13 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_call:
+    inputs:
+      isRelease:
+        description: 'If this is a release build'
+        default: 'false'
+        required: false
+        type: boolean
 
 concurrency:
   group: "build"
@@ -53,6 +60,20 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: gh-pages
+
+#TODO: instead just upload the zip in the build job and decide in the deploy job where to put to repo
+# And iterator over all releases and get their repo artifacts too and unzip them too.
+# To keep the repo smaller, add references to stable repos. How to handle intermediate states? Maybe only add references in release builds
+# TODO: with release build:
+# - run the build as release commit (or just current main)
+#  - let the build create a release deployment.
+# See for triggering another workflow from the current workflow: https://stackoverflow.com/questions/71952762/how-to-trigger-a-workflow-from-another-workflow-using-github-actions
+# - Tag the current release commit (or just current main)
+# - create GH release for that tag
+# - create a commit to update the README
+# - create second commit to update versions to next minor
+# - create a PR with both commits
+
 
   # Deploy job
   deploy:
