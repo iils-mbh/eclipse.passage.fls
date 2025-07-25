@@ -14,28 +14,28 @@ name: Build and deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [ not-now ]
   pull_request:
     branches: [ main ]
   workflow_call:
     inputs:
-      isRelease:
+      releaseVersion:
         description: 'If this is a release build'
-        default: 'false'
         required: false
-        type: boolean
+        type: string
 
 concurrency:
   group: "build"
   cancel-in-progress: true
+
+#TODO: restrict permissions as far as possible!
+permissions: read-all
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      with:
-        path: 'repo'
     - name: Set up JDK
       uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
       with:
@@ -47,19 +47,17 @@ jobs:
       with:
         maven-version: 3.9.11
     - name: Build with Maven
-      working-directory: 'repo'
       run: >-
         mvn clean verify
         --no-transfer-progress --batch-mode --update-snapshots
         -P baseline-check
-    - name: Name repository
-      run: |
-        mkdir -p gh-pages/snapshots/latest
-        mv repo/releng/org.eclipse.passage.fls.repository/target/repository/* gh-pages/snapshots/latest
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+    - name: Upload P2 repository
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
-        path: gh-pages
+        name: p2-repository
+        path: releng/org.eclipse.passage.fls.repository/target/repository
+        retention-days: 7
+        if-no-files-found: error
 
 #TODO: instead just upload the zip in the build job and decide in the deploy job where to put to repo
 # And iterator over all releases and get their repo artifacts too and unzip them too.
@@ -86,6 +84,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+    - name: Obtain P2 repository
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      with:
+        name: p2-repository
+        path: 'snapshots/latest'
+    - name: Move release
+      if: ${{ inputs.releaseVersion }} 
+      run: |
+        #TODO: read the version from somewhere!
+        mv snapshots/latest ${{ inputs.releaseVersion }}
+        ls -lR
+#TODO: download all other release artifacts too and arrange them
+    - name: Upload Page artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

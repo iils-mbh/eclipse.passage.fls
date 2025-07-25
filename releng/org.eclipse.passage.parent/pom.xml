@@ -298,6 +298,11 @@
 					<artifactId>tycho-p2-director-plugin</artifactId>
 					<version>${tycho.version}</version>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-help-plugin</artifactId>
+					<version>3.5.1</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
