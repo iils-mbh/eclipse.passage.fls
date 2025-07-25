@@ -15,5 +15,6 @@ We hope that the FLS will make its way back to the upstream Eclipse-Passage proj
 ###### License 
 [![Eclipse License](https://img.shields.io/badge/License-EPL--2.0-thistle.svg)](https://github.com/eclipse/passage/blob/master/LICENSE) 
 
+<-- Latest release information -->
 ###### Latest release [3.0.0](https://projects.eclipse.org/projects/technology.passage/releases/3.0.0) aligns with [Eclipse Passage 3.0.0](https://projects.eclipse.org/projects/technology.passage/releases/3.0.0).
-[![Stable release P2](https://img.shields.io/badge/P2%20Components-3.0.0-lightblue.svg)](https://download.eclipse.org/passage/updates/release/3.0.0/)
+[![Stable release P2](https://img.shields.io/badge/P2%20Repository-3.0.0-lightblue.svg)](https://download.eclipse.org/passage/updates/release/3.0.0/)

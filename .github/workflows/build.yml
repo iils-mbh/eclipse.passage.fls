@@ -27,6 +27,8 @@ on:
 concurrency:
   group: "build"
   cancel-in-progress: true
+env:
+  MAVEN_ARGS: '--no-transfer-progress --batch-mode'
 
 #TODO: restrict permissions as far as possible!
 permissions: read-all
@@ -48,8 +50,7 @@ jobs:
         maven-version: 3.9.11
     - name: Build with Maven
       run: >-
-        mvn clean verify
-        --no-transfer-progress --batch-mode --update-snapshots
+        mvn clean verify --update-snapshots
         -P baseline-check
     - name: Upload P2 repository
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
