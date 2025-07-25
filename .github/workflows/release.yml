@@ -47,12 +47,13 @@ jobs:
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: |
+        latestRelease=$(gh release view --repo iils-mbh/eclipse.passage.fls --json tagName --jq '.tagName')
+        version=${{ needs.init.outputs.version }}
+        releaseInfoStartLine=$(grep -n '<!-- Latest release information -->' README.md | cut -d: -f1)
         sed -i -e '/<!-- Latest release information -->/q' README.md
-        echo "###### Latest release [3.0.0](https://github.com/iils-mbh/eclipse.passage.fls/releases/tag/3.0.0) aligns with [Eclipse Passage 3.0.0](https://github.com/eclipse-passage/passage/releases/tag/R3_0_0)." >> README.md
-        echo "[![Stable release P2 repository](https://img.shields.io/badge/P2_Repository-v3.0.0-lightblue.svg)](iils-mbh.github.io/eclipse.passage.fls/v3.0.0/)" >> README.md
-        echo "[![Stable release P2 repository](https://img.shields.io/badge/P2_Repository-v3.0.0-lightblue.svg)](iils-mbh.github.io/eclipse.passage.fls/v3.0.0/)" >> README.md
-        releaseVersion='v${{ needs.init.outputs.version }}'
-        git tag -a "${releaseVersion}" -m "Release ${releaseVersion}"
-        git push origin "${releaseVersion}"
-        mvn help:evaluate -Dexpression=project.version '-Doutput=projectVersion-value.txt'
+        sed -i "${releaseInfoStartLine},$s/3\.0\.0/3.1.0/g" README.md
+        sed -i "${releaseInfoStartLine},$s/3_0_0/3_1_0/g" README.md
+        releaseTag="v${version}"
+        git tag -a "${releaseTag}" -m "Release ${releaseTag}"
+        git push origin "${releaseTag}"
         
