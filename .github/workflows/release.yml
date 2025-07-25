@@ -6,11 +6,30 @@ on:
 permissions: write-all
 
 jobs:
+  init:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read-version.outputs.version }}
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        sparse-checkout: |
+          .mvn
+          releng/org.eclipse.passage.parent
+    - id: read-version
+      working-directory: 'releng/org.eclipse.passage.parent'
+      run: |
+        mvn help:evaluate -Dexpression=project.version '-Doutput=projectVersion-value.txt'
+        version=$(cat projectVersion-value.txt)
+        version=${version%%-SNAPSHOT}
+        echo "version=${version}"
+        echo "version=${version}" >> "$GITHUB_OUTPUT"
+
   release-build:
     uses: ./.github/workflows/build.yml
+    needs: init
     with:
-      releaseVersion: v3.1.0
-      #TODO: read the version below
+      releaseVersion: ${{ needs.init.outputs.version }}
     permissions: write-all
 
 # - Tag the current release commit (or just current main)
