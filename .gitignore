@@ -20,6 +20,9 @@ target/
 # JDT output
 /*/*/bin/
 
+# OSGi Declarative service files
+**/OSGI-INF/org.eclipse.*.xml
+
 # Log file
 *.log
 
