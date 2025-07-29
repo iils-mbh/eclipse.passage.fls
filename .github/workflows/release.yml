@@ -83,6 +83,14 @@ jobs:
         chmod +x releng/updateVersions.sh
         releng/updateVersions.sh
         
+        # Update baseline repositories to new release
+        releaseRepoURLPrefix='github.com/iils-mbh/eclipse.passage.fls/releases/download/v'
+        releaseRepoPattern="s|${releaseRepoURLPrefix}[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+|${releaseRepoURLPrefix}${VERSION}|g"
+        sed --in-place --expression="${releaseRepoPattern}" \
+          releng/org.eclipse.passage.parent/pom.xml
+        sed --in-place --expression="${releaseRepoPattern}" \
+          releng/org.eclipse.passage.target/org.eclipse.passage.baseline.target
+        
         git commit --all --message="Prepare next development cycle"
 
     - name: Obtain P2 repository

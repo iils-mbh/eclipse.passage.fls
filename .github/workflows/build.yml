@@ -51,8 +51,8 @@ jobs:
         maven-version: 3.9.11
     - name: Build with Maven
       run: >-
-        mvn clean verify --threads 1C --update-snapshots
-        -P baseline-check
+        mvn clean verify --update-snapshots
+        -Pbaseline-check -Papi-check
 
     - name: Flatten P2 repository
       if: ${{ matrix.config.name == 'Linux' }}

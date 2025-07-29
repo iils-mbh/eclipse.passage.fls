@@ -30,12 +30,11 @@
 
 		<tycho.scmUrl>scm:git:https://github.com/iils-mbh/eclipse.passage.fls.git</tycho.scmUrl>
 
-		<eclipserun-repo>https://download.eclipse.org/eclipse/updates/4.32/R-4.32-202406010610/</eclipserun-repo>
-		<released.baseline>https://download.eclipse.org/passage/updates/release/3.0.0/</released.baseline>
+		<released.baseline>https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v3.1.0/</released.baseline>
+		<comparator.repo>https://github.com/iils-mbh/eclipse.passage.fls/releases/download/snapshot-latest/</comparator.repo>
 
 		<compare-version-with-baselines.skip>true</compare-version-with-baselines.skip>
-		<replace-version-with-baselines.mode>disable</replace-version-with-baselines.mode>
-		<replace-version-with-baselines.replace>none</replace-version-with-baselines.replace>
+		<replace-with-baselines.mode>warn</replace-with-baselines.mode>
 	</properties>
 
 	<issueManagement>
@@ -46,144 +45,45 @@
 	<profiles>
 		<profile>
 			<id>baseline-check</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
 			<properties>
 				<compare-version-with-baselines.skip>false</compare-version-with-baselines.skip>
-				<replace-version-with-baselines.mode>fail</replace-version-with-baselines.mode>
-				<replace-version-with-baselines.replace>all</replace-version-with-baselines.replace>
+				<replace-with-baselines.mode>fail</replace-with-baselines.mode>
 			</properties>
 		</profile>
-
 		<profile>
 			<id>api-check</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
 			<build>
 				<plugins>
 					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>check-skip-api-analysis</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<skip>${skipAPIAnalysis}</skip>
-									<exportAntProperties>true</exportAntProperties>
-									<target>
-										<condition property="skipAPIAnalysis" value="true">
-											<not>
-												<available file="${basedir}/META-INF/MANIFEST.MF" />
-											</not>
-										</condition>
-										<echo file="${project.build.directory}/${project.artifactId}-apiBaseline.target">
-                      <![CDATA[
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?>
-<target name="${project.artifactId}-apiBaseline" sequenceNumber="1">
-	<locations>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<repository location="${released.baseline}"/>
-			<unit id="${project.artifactId}" version="0.0.0"/>
-		</location>
-	</locations>
-</target>
-                      ]]>
-										</echo>
-									</target>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-dependency-tools-plugin</artifactId>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-apitools-plugin</artifactId>
 						<version>${tycho.version}</version>
 						<executions>
 							<execution>
-								<id>list-dependencies</id>
+								<id>verify</id>
 								<goals>
-									<goal>list-dependencies</goal>
+									<goal>verify</goal>
 								</goals>
-								<phase>verify</phase>
 								<configuration>
-									<skip>${skipAPIAnalysis}</skip>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-eclipserun-plugin</artifactId>
-						<version>${tycho.version}</version>
-						<executions>
-							<execution>
-								<id>api-analysis</id>
-								<goals>
-									<goal>eclipse-run</goal>
-								</goals>
-								<phase>verify</phase>
-								<configuration>
-									<skip>${skipAPIAnalysis}</skip>
-									<applicationsArgs>
-										<!-- need to set workspace to a dir that's not a child of the project -->
-										<arg>-data</arg>
-										<args>${project.basedir}/../target/${project.artifactId}-apiAnalyzer-workspace
-										</args>
-										<args>-application</args>
-										<args>org.eclipse.pde.api.tools.apiAnalyzer</args>
-										<args>-project</args>
-										<args>${project.basedir}</args>
-										<args>-baseline</args>
-										<args>${project.build.directory}/${project.artifactId}-apiBaseline.target
-										</args>
-										<args>-dependencyList</args>
-										<args>${project.build.directory}/dependencies-list.txt</args>
-										<args>-failOnError</args>
-									</applicationsArgs>
-									<jvmArgs>
-										<jvmArg>-Xmx2048M</jvmArg>
-									</jvmArgs>
-									<repositories>
+									<baselines>
 										<repository>
-											<id>eclipse</id>
-											<layout>p2</layout>
-											<url>${eclipserun-repo}</url>
+											<url>${released.baseline}</url>
 										</repository>
-									</repositories>
-									<dependencies>
-										<dependency>
-											<artifactId>org.eclipse.pde.api.tools</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-										<dependency>
-											<artifactId>javax.annotation</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-										<dependency>
-											<artifactId>org.eclipse.equinox.p2.transport.ecf</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-										<dependency>
-											<artifactId>org.eclipse.ecf.provider.filetransfer.ssl
-											</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-										<dependency>
-											<artifactId>org.eclipse.equinox.p2.touchpoint.natives
-											</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-										<dependency>
-											<artifactId>org.eclipse.osgi.compatibility.state</artifactId>
-											<type>p2-installable-unit</type>
-										</dependency>
-									</dependencies>
+										<repository>
+											<url>https://download.eclipse.org/passage/updates/release/3.1.0/</url>
+										</repository>
+										<repository>
+											<url>https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240/</url>
+										</repository>
+										<repository>
+											<url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</url>
+										</repository>
+									</baselines>
+									<skip>${skipAPIAnalysis}</skip>
+									<skipIfReplaced>false</skipIfReplaced>
+									<failOnResolutionError>true</failOnResolutionError>
+									<printProblems>true</printProblems>
+									<runAsJob>false</runAsJob>
 								</configuration>
 							</execution>
 						</executions>
@@ -191,7 +91,6 @@
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
 
 	<build>
@@ -361,26 +260,6 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.eclipse.tycho.extras</groupId>
-					<artifactId>tycho-eclipserun-plugin</artifactId>
-					<version>${tycho.version}</version>
-					<configuration>
-						<executionEnvironment>JavaSE-17</executionEnvironment>
-						<repositories>
-							<repository>
-								<id>eclipse</id>
-								<layout>p2</layout>
-								<url>${eclipserun-repo}</url>
-							</repository>
-						</repositories>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-surefire-plugin</artifactId>
 					<version>${tycho.version}</version>
@@ -389,30 +268,21 @@
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-plugin</artifactId>
 					<version>${tycho.version}</version>
-					<executions>
-						<execution>
-							<id>baselinereplace-p2-metadata</id>
-							<goals>
-								<goal>p2-metadata</goal>
-							</goals>
-							<phase>verify</phase>
-							<configuration>
-								<baselineMode>${replace-version-with-baselines.mode}</baselineMode>
-								<baselineReplace>${replace-version-with-baselines.replace}</baselineReplace>
-								<baselineRepositories>
-									<repository>
-										<url>${comparator.repo}</url>
-									</repository>
-								</baselineRepositories>
-							</configuration>
-						</execution>
-					</executions>
 					<configuration>
+						<defaultP2Metadata>false</defaultP2Metadata>
+						<baselineMode>${replace-with-baselines.mode}</baselineMode>
+						<baselineReplace>all</baselineReplace>
+						<enhanceLogs>true</enhanceLogs>
+						<writeComparatorDelta>true</writeComparatorDelta>
+						<baselineRepositories>
+							<repository>
+								<url>${comparator.repo}</url>
+							</repository>
+						</baselineRepositories>
 						<ignoredPatterns>
 							<pattern>META-INF/ECLIPSE_.RSA</pattern>
 							<pattern>META-INF/ECLIPSE_.SF</pattern>
 						</ignoredPatterns>
-						<defaultP2Metadata>false</defaultP2Metadata>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -438,9 +308,6 @@
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-director-plugin</artifactId>
 					<version>${tycho.version}</version>
-					<configuration>
-						<parallel>true</parallel>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
