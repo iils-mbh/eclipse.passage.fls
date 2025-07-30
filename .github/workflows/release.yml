@@ -11,7 +11,6 @@
 #     Hannes Wellmann (IILS mbH) - initial API and implementation
 ###############################################################################
 name: Release
-
 # Releases the main branch with as version currently configured in the parent pom, assuming it aligns with the targeted upstream Eclipse-Passage release.
 
 on:
@@ -32,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
       actions: read
     steps:
     - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -74,9 +74,9 @@ jobs:
           --expression="s|[[:digit:]]\+_[[:digit:]]\+_[[:digit:]]\+|${VERSION_DASHSED}|g" \
           README.md
         
-        # Commit updated README and add release tag
-        git commit --all --message="Release ${RELEASE_TAG}"
+        # Commit updated README and add release tag (use current HEAD as new commits will be rebased on submission)
         git tag -a "${RELEASE_TAG}" -m "Release ${RELEASE_TAG}"
+        git commit --all --message="Release ${RELEASE_TAG}"
         
         # Prepare next development cycle
         export NEW_VERSION="${VERSION%.*}.$((${VERSION##*.}+1))"
@@ -100,6 +100,8 @@ jobs:
       run: |
         set -x
         git push origin "${RELEASE_TAG}"
+        # TODO: the tag is on the commit pushed to a PR, which is altered again when the PR is submitted... Try to push the first commit directly or tag it later (but then we can't create a release).
+        # Or just tag the previous head, i.e. the main branch before this change
         gh release create "${RELEASE_TAG}" --verify-tag --latest \
           --notes "The Passage Floating License Server (FLS) component targeting [Passage ${VERSION}](https://github.com/eclipse-passage/passage/releases/tag/R${VERSION_DASHSED})". \
           'repository/*'
@@ -107,4 +109,4 @@ jobs:
         branchName="release_${VERSION}"
         git push origin HEAD:refs/heads/${branchName}
         gh pr create --base main --head ${branchName} \
-          --title "Release ${VERSION}" --body "Complete ${VERSION} release and prepare for next development iteration" 
+          --title "Release ${VERSION}" --body "Complete ${VERSION} release and prepare for next development iteration." 
