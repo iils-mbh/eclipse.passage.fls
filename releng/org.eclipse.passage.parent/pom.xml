@@ -20,7 +20,7 @@
 
 	<groupId>org.eclipse.passage</groupId>
 	<artifactId>org.eclipse.passage.parent</artifactId>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>3.1.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
