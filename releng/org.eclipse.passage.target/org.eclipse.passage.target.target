@@ -24,18 +24,10 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240/"/>
+			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/"/>
 			<unit id="org.eclipse.equinox.executable.feature.group"/>
 			<unit id="org.eclipse.equinox.sdk.feature.group"/>
 			<unit id="org.eclipse.sdk.feature.group"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/ecp/rt/1270/"/>
-			<unit id="org.eclipse.emf.ecp.emfforms.runtime.feature.feature.group"/>
-			<unit id="org.eclipse.emfforms.setup.base"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/"/>
-			<unit id="org.eclipse.emf.sdk.feature.group"/>
 		</location>
 	</locations>
 </target>
