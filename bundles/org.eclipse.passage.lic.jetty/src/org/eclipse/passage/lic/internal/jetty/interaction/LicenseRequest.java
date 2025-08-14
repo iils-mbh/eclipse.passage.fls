@@ -28,6 +28,7 @@ final class LicenseRequest extends Command {
 	}
 
 	public void licrequest() {
+		@SuppressWarnings("restriction")
 		Collection<RuntimeEnvironment> envs = new Environments().get();
 		reportEnvironmentsDiscovered(envs);
 		for (RuntimeEnvironment env : envs) {

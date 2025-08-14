@@ -19,6 +19,7 @@ import org.eclipse.passage.lic.internal.net.api.FrameworkConstructor;
 import org.eclipse.passage.lic.internal.net.api.handle.NetRequest;
 import org.eclipse.passage.lic.internal.net.handle.ProductUserRequest;
 
+@SuppressWarnings("restriction")
 public final class NetFrameworkAware<R extends NetRequest> extends EquinoxFrameworkAware<FrameworkConstructor> {
 
 	public NetFrameworkAware(ProductUserRequest<R> request) {

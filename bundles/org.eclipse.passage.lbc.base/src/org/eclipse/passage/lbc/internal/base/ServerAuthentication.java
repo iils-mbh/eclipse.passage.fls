@@ -43,10 +43,12 @@ final class ServerAuthentication {
 		return () -> new ReadOnlyRegistry<>(new BerlinProtocolExpressionParseService());
 	}
 
+	@SuppressWarnings("restriction")
 	private ExpressionTokenAssessorsRegistry assessors() {
 		return () -> new ReadOnlyRegistry<>(new HardwareAssessmentService(environments()));
 	}
 
+	@SuppressWarnings("restriction")
 	private RuntimeEnvironmentRegistry environments() {
 		return () -> new ReadOnlyRegistry<>(new HardwareEnvironment());
 	}

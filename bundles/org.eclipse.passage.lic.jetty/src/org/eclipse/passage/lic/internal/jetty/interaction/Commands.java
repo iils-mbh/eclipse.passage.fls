@@ -46,6 +46,7 @@ final class Commands {
 		commands().forEach(command -> command.register(context));
 	}
 
+	@SuppressWarnings("restriction")
 	private List<JettyCommands> commands() {
 		return new ServiceExtensions<JettyCommands>(//
 				"org.eclipse.passage.lic.jetty", //$NON-NLS-1$

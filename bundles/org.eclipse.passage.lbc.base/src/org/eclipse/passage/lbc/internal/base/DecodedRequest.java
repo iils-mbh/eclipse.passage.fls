@@ -40,6 +40,7 @@ public abstract class DecodedRequest<T extends EObject> {
 		this.options = options;
 	}
 
+	@SuppressWarnings("restriction")
 	public final T get() throws IOException, LicensingException {
 		return new EObjectFromBytes<T>(decoded(request.content()), target()).get(options);
 	}

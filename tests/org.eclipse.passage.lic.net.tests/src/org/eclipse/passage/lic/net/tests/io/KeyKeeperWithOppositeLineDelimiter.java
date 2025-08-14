@@ -32,9 +32,10 @@ final class KeyKeeperWithOppositeLineDelimiter extends TestKeyKeeper {
 	}
 
 	private byte[] content() throws IOException {
-		return Files.lines(publicKey()) //
-				.collect(Collectors.joining(oppositeLineSeparator())) //
-				.getBytes(StandardCharsets.UTF_8);
+		try (var lines = Files.lines(publicKey())) {
+			return lines.collect(Collectors.joining(oppositeLineSeparator())) //
+					.getBytes(StandardCharsets.UTF_8);
+		}
 	}
 
 	private String oppositeLineSeparator() {

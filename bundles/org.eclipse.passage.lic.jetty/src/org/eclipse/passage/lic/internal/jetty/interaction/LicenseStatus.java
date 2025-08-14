@@ -26,6 +26,7 @@ final class LicenseStatus extends Command {
 	}
 
 	public void licstatus() {
+		@SuppressWarnings("restriction")
 		ServiceInvocationResult<ExaminationCertificate> response = new EquinoxPassageLicenseCoverage().assess();
 		if (response.data().isPresent()) {
 			reportCertificate(response.data().get());

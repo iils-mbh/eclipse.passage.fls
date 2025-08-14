@@ -31,6 +31,7 @@ final class ProtectedGrantCapacity implements Supplier<Integer> {
 	}
 
 	@Override
+	@SuppressWarnings("restriction")
 	public Integer get() {
 		if (grant.getCapacity() < unlicensed) {
 			return grant.getCapacity();

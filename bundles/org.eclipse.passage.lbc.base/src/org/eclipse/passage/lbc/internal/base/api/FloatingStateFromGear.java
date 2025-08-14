@@ -31,6 +31,7 @@ public final class FloatingStateFromGear implements Supplier<FloatingState> {
 	}
 
 	@Override
+	@SuppressWarnings("restriction")
 	public FloatingState get() {
 		Optional<FloatingState> mayBeState;
 		try {

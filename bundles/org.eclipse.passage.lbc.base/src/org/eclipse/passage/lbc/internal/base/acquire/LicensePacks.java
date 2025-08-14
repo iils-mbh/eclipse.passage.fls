@@ -65,16 +65,16 @@ final class LicensePacks {
 	}
 
 	private Optional<FloatingLicensePack> pack(Path license) {
-		FloatingLicensePack pack;
 		try {
-			pack = new EObjectFromBytes<FloatingLicensePack>(decoded(license),
+			@SuppressWarnings("restriction")
+			FloatingLicensePack pack = new EObjectFromBytes<FloatingLicensePack>(decoded(license),
 					LicensesPackage.eINSTANCE.getFloatingLicensePack())//
 					.get(Collections.singletonMap(LicensesPackage.eNS_URI, LicensesPackage.eINSTANCE));
+			return Optional.of(pack);
 		} catch (LicensingException e) {
 			log.error("failed: ", e); //$NON-NLS-1$
 			return Optional.empty();
 		}
-		return Optional.of(pack);
 	}
 
 	private byte[] decoded(Path source) throws LicensingException {
