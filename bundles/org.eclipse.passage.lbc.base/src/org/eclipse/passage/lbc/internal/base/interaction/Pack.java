@@ -62,6 +62,7 @@ final class Pack {
 			this.content = read(decoded());
 		}
 
+		@SuppressWarnings("restriction")
 		private FloatingLicensePack read(byte[] bytes) throws LicensingException {
 			return new EObjectFromBytes<FloatingLicensePack>(//
 					bytes, //
@@ -69,6 +70,7 @@ final class Pack {
 			).get(Collections.singletonMap(LicensesPackage.eNAME, LicensesPackage.eINSTANCE));
 		}
 
+		@SuppressWarnings("restriction")
 		private byte[] decoded() throws LicensingException {
 			return new FlsGearAwre()//
 					.withGear(g -> Optional.of(decoded(g)))//

@@ -36,6 +36,7 @@ public final class ReassemblingMiningEquipment implements MiningEquipment {
 	}
 
 	@Override
+	@SuppressWarnings("restriction")
 	public MiningTool tool(LicensedProduct product, ConditionMiningTarget miner) throws LicensingException {
 		return new FlsGearAwre().withGear(gear -> tool(gear, product, miner)).get();
 	}

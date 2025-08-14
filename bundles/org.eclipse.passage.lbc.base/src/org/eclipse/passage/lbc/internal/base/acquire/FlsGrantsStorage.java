@@ -48,6 +48,7 @@ final class FlsGrantsStorage extends DefaultGrantsStorage {
 	// TODO: evolve LicenseRunnable to return a result, re-implement with proper
 	// grant acquisition
 	private boolean checkFlsLicense() {
+		@SuppressWarnings("restriction")
 		boolean canUse = new EquinoxPassage().canUse(feature);
 		if (!canUse) {
 			log.error(String.format("FLS feature %s is not covered by a license", feature)); //$NON-NLS-1$

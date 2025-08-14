@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.passage.lic.api.LicensingException;
 
@@ -31,7 +31,10 @@ final class OnlyFileOfType {
 	}
 
 	Path get() throws Exception {
-		List<Path> keys = Files.find(folder, 1, this::ofType).collect(Collectors.toList());
+		List<Path> keys;
+		try (Stream<Path> files = Files.find(folder, 1, this::ofType)) {
+			keys = files.toList();
+		}
 		if (keys.size() != 1) {
 			throw new LicensingException(String.format("%s is expected to contain exactly one file of type %s", //$NON-NLS-1$
 					folder.toString(), extension));

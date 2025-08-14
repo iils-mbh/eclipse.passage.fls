@@ -14,6 +14,7 @@ package org.eclipse.passage.lbc.internal.base.api;
 
 import org.eclipse.passage.lic.equinox.GearAware;
 
+@SuppressWarnings("restriction")
 public final class FlsGearAwre extends GearAware<FlsGear, FlsGearSupplier> {
 
 	@Override
