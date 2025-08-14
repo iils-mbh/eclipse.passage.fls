@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 <!--
-	Copyright (c) 2018, 2024 ArSysOp and others
+	Copyright (c) 2018, 2025 ArSysOp and others
 
 	This program and the accompanying materials are made available under the
 	terms of the Eclipse Public License 2.0 which is available at
@@ -16,11 +16,9 @@
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 			<repository location="https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v3.1.1/"/>
-			<repository location="https://download.eclipse.org/passage/updates/release/3.1.0/"/>
-			<repository location="https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240/"/>
-			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/"/>
 			<unit id="org.eclipse.passage.lbc.execute.feature.feature.group"/>
 			<unit id="org.eclipse.passage.lbc.fls.feature.feature.group"/>
+			<unit id="org.eclipse.passage.lic.hc.feature.feature.group"/>
 			<unit id="org.eclipse.passage.lic.jetty.feature.feature.group"/>
 			<unit id="org.eclipse.passage.lic.net.feature.feature.group"/>
 		</location>
