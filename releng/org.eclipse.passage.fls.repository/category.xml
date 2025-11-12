@@ -23,6 +23,9 @@
    <feature id="org.eclipse.passage.lbc.execute.feature">
       <category name="org.eclipse.passage.lbc.category"/>
    </feature>
+   <feature id="org.eclipse.passage.lic.hc.feature">
+      <category name="org.eclipse.passage.lic.category"/>
+   </feature>
    <category-def name="org.eclipse.passage.lic.category" label="Passage LIC">
       <description>
          Passage Licensing Integration Components includes: Licensing Runtime API and its implementation for Eclipse Equinox, Licensing JFace components, Licensing Metadata EMF API, License Management Integrations
