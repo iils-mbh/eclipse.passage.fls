@@ -15,7 +15,7 @@
 <target name="org.eclipse.passage.baseline">
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<repository location="https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v3.1.0/"/>
+			<repository location="https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v3.1.1/"/>
 			<repository location="https://download.eclipse.org/passage/updates/release/3.1.0/"/>
 			<repository location="https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240/"/>
 			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/"/>
