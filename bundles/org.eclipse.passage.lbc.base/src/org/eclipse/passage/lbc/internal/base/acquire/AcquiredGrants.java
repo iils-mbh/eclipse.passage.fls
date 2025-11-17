@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.eclipse.passage.lbc.internal.base.api.Grants;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.base.io.LicensingFolder;
@@ -53,7 +54,7 @@ public final class AcquiredGrants implements Grants {
 	}
 
 	@Override
-	public Optional<GrantAcqisition> acquire(LicensedProduct product, String user, String feature)
+	public Optional<GrantAcqisition> acquire(LicensedProduct product, String user, FeatureIdentifier feature)
 			throws LicensingException {
 		Collection<FeatureGrant> grants = new FeatureGrants(product, user, feature, base).get();
 		if (grants.isEmpty()) {

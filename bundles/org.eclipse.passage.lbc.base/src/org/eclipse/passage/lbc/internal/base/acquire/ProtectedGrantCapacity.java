@@ -14,6 +14,8 @@ package org.eclipse.passage.lbc.internal.base.acquire;
 
 import java.util.function.Supplier;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
 import org.eclipse.passage.lic.equinox.EquinoxPassage;
 import org.eclipse.passage.lic.licenses.model.api.FeatureGrant;
 import org.slf4j.Logger;
@@ -22,7 +24,8 @@ import org.slf4j.LoggerFactory;
 final class ProtectedGrantCapacity implements Supplier<Integer> {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
-	private final String feature = "org.eclipse.passage.lbc.acquire.concurrent.full"; //$NON-NLS-1$
+	private final FeatureIdentifier feature = new BaseFeatureIdentifier(
+			"org.eclipse.passage.lbc.acquire.concurrent.full"); //$NON-NLS-1$
 	private final FeatureGrant grant;
 	private final int unlicensed = 4;
 

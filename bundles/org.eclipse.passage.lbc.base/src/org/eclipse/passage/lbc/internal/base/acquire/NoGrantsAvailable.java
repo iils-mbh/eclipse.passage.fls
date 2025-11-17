@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.eclipse.passage.lbc.internal.base.acquire;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.internal.net.handle.Failure;
 
@@ -20,7 +21,7 @@ import org.eclipse.passage.lic.internal.net.handle.Failure;
  */
 public final class NoGrantsAvailable extends Failure {
 
-	public NoGrantsAvailable(LicensedProduct product, String feature) {
+	public NoGrantsAvailable(LicensedProduct product, FeatureIdentifier feature) {
 		super(611, String.format("No license grants available for feature %s of product %s", feature, product)); //$NON-NLS-1$
 	}
 

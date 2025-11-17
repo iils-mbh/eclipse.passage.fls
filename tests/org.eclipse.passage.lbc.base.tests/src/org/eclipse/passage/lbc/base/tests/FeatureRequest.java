@@ -21,13 +21,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.passage.lbc.internal.base.EagerFloatingState;
 import org.eclipse.passage.lbc.internal.base.api.FloatingState;
 import org.eclipse.passage.lbc.internal.base.api.RawRequest;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
-import org.eclipse.passage.lic.base.FeatureIdentifier;
 import org.eclipse.passage.lic.base.ProductIdentifier;
 import org.eclipse.passage.lic.base.ProductVersion;
 import org.eclipse.passage.lic.internal.emf.EObjectToBytes;
+import org.eclipse.passage.lic.internal.net.FeatureId;
 import org.eclipse.passage.lic.internal.net.LicenseUser;
 import org.eclipse.passage.lic.licenses.model.meta.LicensesPackage;
 
@@ -36,26 +37,27 @@ final class FeatureRequest {
 
 	private final PassageAction action;
 	private final LicensedProduct product;
-	private final String feature;
+	private final FeatureIdentifier feature;
 	private final String user;
 	private final Optional<EObject> payload;
 	private final FloatingState state;
 
-	FeatureRequest(PassageAction action, LicensedProduct product, String feature, String user, FloatingState state) {
+	FeatureRequest(PassageAction action, LicensedProduct product, FeatureIdentifier feature, String user,
+			FloatingState state) {
 		this(action, product, feature, user, Optional.empty(), state);
 	}
 
-	FeatureRequest(PassageAction action, LicensedProduct product, String feature, String user, EObject payload,
-			FloatingState state) {
+	FeatureRequest(PassageAction action, LicensedProduct product, FeatureIdentifier feature, String user,
+			EObject payload, FloatingState state) {
 		this(action, product, feature, user, Optional.of(payload), state);
 	}
 
-	FeatureRequest(PassageAction action, LicensedProduct product, String feature, String user,
+	FeatureRequest(PassageAction action, LicensedProduct product, FeatureIdentifier feature, String user,
 			Optional<EObject> payload) {
 		this(action, product, feature, user, payload, new EagerFloatingState(new TestLicFolder()));
 	}
 
-	FeatureRequest(PassageAction action, LicensedProduct product, String feature, String user,
+	FeatureRequest(PassageAction action, LicensedProduct product, FeatureIdentifier feature, String user,
 			Optional<EObject> payload, FloatingState state) {
 		this.action = action;
 		this.product = product;
@@ -72,7 +74,7 @@ final class FeatureRequest {
 						new ProductIdentifier(product), //
 						new ProductVersion(product), //
 						new LicenseUser(user), //
-						new FeatureIdentifier(feature))) //
+						new FeatureId(feature))) //
 				.withState(state);
 		if (payload.isPresent()) {
 			construct.withContent(raw(payload.get()));

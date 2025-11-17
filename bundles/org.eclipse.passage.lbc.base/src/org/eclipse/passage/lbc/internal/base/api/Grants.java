@@ -15,6 +15,7 @@ package org.eclipse.passage.lbc.internal.base.api;
 import java.util.Optional;
 
 import org.eclipse.passage.lbc.internal.base.acquire.GrantsStorage;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.licenses.model.api.GrantAcqisition;
@@ -23,7 +24,8 @@ public interface Grants {
 
 	GrantsStorage storage();
 
-	Optional<GrantAcqisition> acquire(LicensedProduct product, String user, String feature) throws LicensingException;
+	Optional<GrantAcqisition> acquire(LicensedProduct product, String user, FeatureIdentifier feature)
+			throws LicensingException;
 
 	boolean release(LicensedProduct product, GrantAcqisition acquisition);
 
