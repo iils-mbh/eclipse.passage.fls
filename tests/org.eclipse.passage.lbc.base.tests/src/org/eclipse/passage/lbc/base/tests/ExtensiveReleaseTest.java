@@ -64,13 +64,13 @@ public final class ExtensiveReleaseTest {
 	}
 
 	private Set<Future<Result>> runProtectedActionsConcurrently(int amount) throws InterruptedException {
-		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);
+
 		FloatingState state = new EagerFloatingState(new TestLicFolder());
-		Set<Future<Result>> futures = IntStream.range(0, amount)//
-				.mapToObj(i -> pool.submit(new ProtectedAction(state)))//
-				.collect(Collectors.toSet());
-		pool.shutdown();
-		return futures;
+		try (ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);) {
+			return IntStream.range(0, amount) //
+					.mapToObj(i -> pool.submit(new ProtectedAction(state)))//
+					.collect(Collectors.toSet());
+		}
 	}
 
 	private Map<Result, Integer> countResults(Set<Future<Result>> futures)
