@@ -53,13 +53,12 @@ public final class ExtensiveAcquiringTest {
 	}
 
 	private Set<Future<NetResponse>> runConcurrentAcquireRequest(int amount) throws InterruptedException {
-		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);
 		FloatingState state = new EagerFloatingState(new TestLicFolder());
-		Set<Future<NetResponse>> futures = IntStream.range(0, amount)//
-				.mapToObj(i -> pool.submit(new Acq(state)))//
-				.collect(Collectors.toSet());
-		pool.shutdown();
-		return futures;
+		try (ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);) {
+			return IntStream.range(0, amount) //
+					.mapToObj(i -> pool.submit(new Acq(state)))//
+					.collect(Collectors.toSet());
+		}
 	}
 
 	private int[] countGainsAndLates(Set<Future<NetResponse>> futures) throws InterruptedException {
