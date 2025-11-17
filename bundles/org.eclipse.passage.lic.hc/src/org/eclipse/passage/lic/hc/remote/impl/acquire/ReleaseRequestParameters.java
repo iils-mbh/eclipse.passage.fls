@@ -12,22 +12,23 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.hc.remote.impl.acquire;
 
-import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
-import org.eclipse.passage.lic.base.FeatureIdentifier;
 import org.eclipse.passage.lic.base.NamedData;
 import org.eclipse.passage.lic.hc.remote.impl.RequestParameters;
+import org.eclipse.passage.lic.internal.net.FeatureId;
 import org.eclipse.passage.lic.licenses.model.api.FloatingLicenseAccess;
 
 final class ReleaseRequestParameters extends RequestParameters {
 
-	private final String feature;
+	private final FeatureIdentifier feature;
 
-	ReleaseRequestParameters(LicensedProduct product, String feature, FloatingLicenseAccess access, String hash) {
+	ReleaseRequestParameters(LicensedProduct product, FeatureIdentifier feature, FloatingLicenseAccess access,
+			String hash) {
 		super(product, access, hash);
 		this.feature = feature;
 	}
@@ -40,7 +41,7 @@ final class ReleaseRequestParameters extends RequestParameters {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected List<NamedData> actionParameters() throws LicensingException {
-		return Collections.singletonList(new FeatureIdentifier(encode(feature)));
+		return List.of(new FeatureId(encode(feature.identifier())));
 	}
 
 }
