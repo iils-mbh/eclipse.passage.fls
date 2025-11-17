@@ -27,6 +27,7 @@ import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.conditions.Condition;
 import org.eclipse.passage.lic.api.conditions.ValidityPeriod;
 import org.eclipse.passage.lic.api.conditions.VersionMatch;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
 import org.eclipse.passage.lic.base.conditions.BaseCondition;
 import org.eclipse.passage.lic.base.conditions.BaseEvaluationInstructions;
 import org.eclipse.passage.lic.base.conditions.BaseValidityPeriodClosed;
@@ -66,7 +67,7 @@ final class AssembledConditions {
 	private Condition condition(UserGrant user, FeatureGrant feature) throws LicensingException {
 		return new BaseCondition(//
 				feature.getIdentifier(), //
-				feature.getFeature().getIdentifier(), //
+				new BaseFeatureIdentifier(feature.getFeature().getIdentifier()), //
 				version(feature), //
 				period(feature), //
 				evaluation(user));
