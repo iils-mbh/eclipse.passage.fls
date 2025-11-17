@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.passage.lbc.base.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import org.eclipse.passage.lic.api.PassageAction;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.internal.net.handle.ProductUserRequest;
 import org.eclipse.passage.lic.licenses.model.api.GrantAcqisition;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("restriction")
 public final class ExtensiveReleaseTest {
@@ -58,8 +58,8 @@ public final class ExtensiveReleaseTest {
 		Map<Result, Integer> results = countResults(futures);
 		assertEquals(0, results.get(Result.Weird).intValue()); // no one ended weirdly
 		int grantedAndReleased = results.get(Result.GainedAndReleased);
-		assertTrue(String.format("granted and released: %d", grantedAndReleased), //$NON-NLS-1$
-				grantedAndReleased >= 3); // we have only 3, can possible grant several times each
+		assertTrue(grantedAndReleased >= 3, // we have only 3, can possible grant several times each
+				"granted and released: " + grantedAndReleased); //$NON-NLS-1$
 		assertEquals(amount, grantedAndReleased + results.get(Result.NotGainedNotExecuted));
 	}
 

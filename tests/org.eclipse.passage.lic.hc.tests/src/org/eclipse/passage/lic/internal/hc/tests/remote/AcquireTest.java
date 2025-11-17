@@ -12,7 +12,7 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.internal.hc.tests.remote;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -30,7 +30,7 @@ import org.eclipse.passage.lic.hc.internal.remote.Client;
 import org.eclipse.passage.lic.hc.remote.impl.acquire.RemoteAcquisitionService;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.internal.net.handle.ProductUserRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("restriction")
 public final class AcquireTest {
@@ -45,7 +45,7 @@ public final class AcquireTest {
 				new RemoteAcquisitionService<ShortcutConnection>(//
 						new TestEquipment(data.product(), source).get(), this::acq, this::rel, source);
 		ServiceInvocationResult<GrantAcquisition> acquisition = service.acquire(data.product(), data.feature());
-		assertTrue(new DiagnosticExplained(acquisition.diagnostic()).get(), acquisition.data().isPresent());
+		assertTrue(acquisition.data().isPresent(), new DiagnosticExplained(acquisition.diagnostic()).get());
 		ServiceInvocationResult<Boolean> release = service.release(data.product(), acquisition.data().get());
 		assertTrue(release.data().isPresent());
 	}
