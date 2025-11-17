@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.internal.hc.tests.remote;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -32,7 +32,7 @@ import org.eclipse.passage.lic.hc.internal.remote.Client;
 import org.eclipse.passage.lic.hc.remote.impl.mine.RemoteConditions;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.internal.net.handle.ProductUserRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("restriction")
 public final class MineTest {
@@ -44,9 +44,10 @@ public final class MineTest {
 	public void mine() {
 		ServiceInvocationResult<Collection<ConditionPack>> all = new RemoteConditions<>(//
 				new TestEquipment(data.product(), source).get(), this::client, source)//
-						.all(data.product());
-		assertTrue(new DiagnosticExplained(all.diagnostic()).get(), all.data().isPresent());
-		assertEquals(new DiagnosticExplained(all.diagnostic()).get(), 1, all.data().get().size());
+				.all(data.product());
+		String message = new DiagnosticExplained(all.diagnostic()).get();
+		assertTrue(all.data().isPresent(), message);
+		assertEquals(1, all.data().get().size(), message);
 	}
 
 	private Client<ShortcutConnection, Collection<ConditionPack>> client() {

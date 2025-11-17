@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.passage.lbc.base.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -28,7 +28,7 @@ import org.eclipse.passage.lic.internal.net.ServerAuthenticationExpression;
 import org.eclipse.passage.lic.internal.net.ServerAuthenticationType;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.internal.net.handle.Failure;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public final class MineTest {
 

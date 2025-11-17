@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.stream.Collectors;
 
 import org.eclipse.passage.lic.api.LicensingException;
@@ -26,8 +27,8 @@ final class KeyKeeperWithOppositeLineDelimiter extends TestKeyKeeper {
 
 	@Override
 	public KeyKeeper get() throws LicensingException, IOException {
-		Path file = SafePayloadTest.folder.newFile("key.pub").toPath(); //$NON-NLS-1$
-		Files.write(file, content());
+		Path file = SafePayloadTest.folder.resolve("key.pub"); //$NON-NLS-1$
+		Files.write(file, content(), StandardOpenOption.CREATE_NEW);
 		return new FileKeyKeeper(file);
 	}
 

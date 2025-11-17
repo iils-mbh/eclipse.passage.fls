@@ -12,10 +12,10 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.internal.hc.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,9 +40,7 @@ import org.eclipse.passage.lic.licenses.model.api.EvaluationInstructions;
 import org.eclipse.passage.lic.licenses.model.api.FloatingLicenseAccess;
 import org.eclipse.passage.lic.licenses.model.api.FloatingServerConnection;
 import org.eclipse.passage.lic.licenses.model.meta.LicensesFactory;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
 
 public final class RemoteConditionsRequestTest {
 
@@ -51,8 +49,6 @@ public final class RemoteConditionsRequestTest {
 	private final String user = "some_user@some_mail.se"; //$NON-NLS-1$
 	private final String environment = "some_env"; //$NON-NLS-1$
 	private final String expression = "some_expression"; //$NON-NLS-1$
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
 
 	@Test
 	public void urlContainsAllParameters() throws IOException {

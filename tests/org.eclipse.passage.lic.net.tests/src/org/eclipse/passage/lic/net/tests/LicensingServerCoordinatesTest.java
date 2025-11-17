@@ -12,12 +12,14 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.net.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.base.NamedData;
@@ -26,14 +28,13 @@ import org.eclipse.passage.lic.internal.net.HostPort;
 import org.eclipse.passage.lic.internal.net.LicensingServerCoordinatesFromSettings;
 import org.eclipse.passage.lic.internal.net.LicensingServerHost;
 import org.eclipse.passage.lic.internal.net.LicensingServerPort;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public final class LicensingServerCoordinatesTest {
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+	@TempDir
+	public Path folder;
 
 	@Test
 	public void existingSettingsAreFound() throws IOException, LicensingException {
@@ -48,47 +49,43 @@ public final class LicensingServerCoordinatesTest {
 		assertEquals("some.server:56789", coordinates()); //$NON-NLS-1$
 	}
 
-	@Test(expected = LicensingException.class)
+	@Test
 	public void absentHostCausesFailure() throws IOException, LicensingException {
 		writeSettingsFile(null, "8080"); //$NON-NLS-1$
-		coordinates();
-	}
-
-	@Test(expected = LicensingException.class)
-	public void absentPortCausesFailure() throws IOException, LicensingException {
-		writeSettingsFile("192.168.0.1", null); //$NON-NLS-1$
-		coordinates();
-	}
-
-	@Test(expected = LicensingException.class)
-	public void emptyHostCausesFailure() throws IOException, LicensingException {
-		writeSettingsFile("", "2212"); //$NON-NLS-1$ //$NON-NLS-2$
-		coordinates();
-	}
-
-	@Test(expected = LicensingException.class)
-	public void emptyPortCausesFailure() throws IOException, LicensingException {
-		writeSettingsFile("server.address", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		coordinates();
+		assertThrows(LicensingException.class, () -> coordinates());
 	}
 
 	@Test
-	public void valuesAreNotVerified() throws IOException {
+	public void absentPortCausesFailure() throws IOException, LicensingException {
+		writeSettingsFile("192.168.0.1", null); //$NON-NLS-1$
+		assertThrows(LicensingException.class, () -> coordinates());
+	}
+
+	@Test
+	public void emptyHostCausesFailure() throws IOException, LicensingException {
+		writeSettingsFile("", "2212"); //$NON-NLS-1$ //$NON-NLS-2$
+		assertThrows(LicensingException.class, () -> coordinates());
+	}
+
+	@Test
+	public void emptyPortCausesFailure() throws IOException, LicensingException {
+		writeSettingsFile("server.address", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		assertThrows(LicensingException.class, () -> coordinates());
+	}
+
+	@Test
+	public void valuesAreNotVerified() throws IOException, LicensingException {
 		writeSettingsFile("(absolutely)$invald+server&*%.address", "not-a-port-value"); //$NON-NLS-1$ //$NON-NLS-2$
-		try {
-			coordinates();
-		} catch (LicensingException e) {
-			fail("Values verification is not the part of settings retrieval"); //$NON-NLS-1$
-		}
+		coordinates();
 	}
 
 	private String coordinates() throws LicensingException {
-		HostPort coords = new LicensingServerCoordinatesFromSettings(folder.getRoot()::toPath).get();
+		HostPort coords = new LicensingServerCoordinatesFromSettings(() -> folder).get();
 		return String.format("%s:%s", coords.host(), coords.port()); //$NON-NLS-1$
 	}
 
 	private void writeSettingsFile(String host, String port) throws IOException {
-		File file = folder.newFile(Long.toHexString(System.nanoTime()) + new PassageFileExtension.Settings().get());
+		Path file = folder.resolve(Long.toHexString(System.nanoTime()) + new PassageFileExtension.Settings().get());
 		StringBuilder out = new StringBuilder();
 		if (host != null) {
 			new NamedData.Writable<String>(new LicensingServerHost(host)).write(out);
@@ -96,7 +93,7 @@ public final class LicensingServerCoordinatesTest {
 		if (port != null) {
 			new NamedData.Writable<String>(new LicensingServerPort(port)).write(out);
 		}
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(Files.newOutputStream(file, StandardOpenOption.CREATE_NEW))) {
 			writer.print(out.toString());
 		}
 	}

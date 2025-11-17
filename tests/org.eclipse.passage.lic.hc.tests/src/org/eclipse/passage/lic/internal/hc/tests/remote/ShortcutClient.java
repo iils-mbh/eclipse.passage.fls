@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.internal.hc.tests.remote;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.passage.lbc.base.tests.TestData;
 import org.eclipse.passage.lbc.internal.base.EagerFloatingState;
