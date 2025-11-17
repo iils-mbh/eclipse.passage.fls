@@ -70,7 +70,7 @@ final class PersonalLicenseGenerated implements Supplier<PersonalLicensePack> {
 	private PersonalFeatureGrant grant(Condition condition) {
 		PersonalFeatureGrant grant = new EmptyPersonalFeatureGrant().get();
 		grant.setIdentifier(condition.identifier());
-		grant.getFeature().setIdentifier(condition.feature());
+		grant.getFeature().setIdentifier(condition.feature().identifier());
 		grant.getFeature().getVersionMatch().setVersion(condition.versionMatch().version());
 		grant.getFeature().getVersionMatch().setRule(condition.versionMatch().rule().identifier());
 		grant.setCapacity(1);

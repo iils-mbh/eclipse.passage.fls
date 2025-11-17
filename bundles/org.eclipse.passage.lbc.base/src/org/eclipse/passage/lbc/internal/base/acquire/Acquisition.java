@@ -21,9 +21,11 @@ import org.eclipse.passage.lbc.internal.base.DecodedRequest;
 import org.eclipse.passage.lbc.internal.base.EncodedResponse;
 import org.eclipse.passage.lbc.internal.base.api.Grants;
 import org.eclipse.passage.lbc.internal.base.api.RawRequest;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
-import org.eclipse.passage.lic.base.FeatureIdentifier;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
+import org.eclipse.passage.lic.internal.net.FeatureId;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.internal.net.handle.Failure;
 import org.eclipse.passage.lic.internal.net.handle.PlainSuceess;
@@ -43,7 +45,8 @@ public final class Acquisition {
 	}
 
 	public NetResponse get() {
-		Optional<String> feature = new FeatureIdentifier(key -> data.raw().parameter(key)).get();
+		Optional<FeatureIdentifier> feature = new FeatureId(data.raw()::parameter).get()
+				.map(BaseFeatureIdentifier::new);
 		if (!feature.isPresent()) {
 			return new Failure.BadRequestNoFeature();
 		}
@@ -79,7 +82,7 @@ public final class Acquisition {
 
 	}
 
-	private Optional<GrantAcqisition> acquisition(String feature) throws LicensingException {
+	private Optional<GrantAcqisition> acquisition(FeatureIdentifier feature) throws LicensingException {
 		return grants().acquire(//
 				data.product().get(), //
 				data.user().get(), //
@@ -94,7 +97,7 @@ public final class Acquisition {
 		return data.raw().state().grants();
 	}
 
-	private Failure noGrants(String feature) {
+	private Failure noGrants(FeatureIdentifier feature) {
 		return new NoGrantsAvailable(data.product().get(), feature);
 	}
 

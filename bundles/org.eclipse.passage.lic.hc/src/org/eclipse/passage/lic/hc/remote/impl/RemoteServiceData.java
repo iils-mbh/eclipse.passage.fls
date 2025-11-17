@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.hc.remote.impl;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 
 /**
@@ -40,14 +41,14 @@ public abstract class RemoteServiceData {
 
 	public static final class OfFeature extends RemoteServiceData {
 
-		private final String feature;
+		private final FeatureIdentifier feature;
 
-		public OfFeature(LicensedProduct product, String feature) {
+		public OfFeature(LicensedProduct product, FeatureIdentifier feature) {
 			super(product);
 			this.feature = feature;
 		}
 
-		public String feature() {
+		public FeatureIdentifier feature() {
 			return feature;
 		}
 

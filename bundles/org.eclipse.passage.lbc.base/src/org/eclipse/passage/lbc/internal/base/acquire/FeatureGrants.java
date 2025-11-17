@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.passage.lbc.internal.base.api.FlsGear;
 import org.eclipse.passage.lbc.internal.base.api.FlsGearAwre;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.licenses.model.api.FeatureGrant;
@@ -32,11 +33,11 @@ final class FeatureGrants {
 
 	private final LicensedProduct product;
 	private final String user;
-	private final String feature;
+	private final FeatureIdentifier feature;
 	private final Supplier<Path> base;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	FeatureGrants(LicensedProduct product, String user, String feature, Supplier<Path> base) {
+	FeatureGrants(LicensedProduct product, String user, FeatureIdentifier feature, Supplier<Path> base) {
 		this.product = product;
 		this.user = user;
 		this.feature = feature;
@@ -99,7 +100,7 @@ final class FeatureGrants {
 	 */
 	private Optional<FeatureGrant> grantForFeature(FloatingLicensePack license) {
 		return license.getFeatures().stream()//
-				.filter(grant -> feature.equals(grant.getFeature().getIdentifier()))//
+				.filter(grant -> feature.identifier().equals(grant.getFeature().getIdentifier()))//
 				.findAny();//
 	}
 

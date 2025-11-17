@@ -20,7 +20,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
 import org.eclipse.passage.lic.base.BaseLicensedProduct;
 import org.eclipse.passage.lic.licenses.model.api.PersonalFeatureGrant;
 import org.eclipse.passage.lic.licenses.model.api.ValidityPeriodClosed;
@@ -28,7 +30,7 @@ import org.eclipse.passage.lic.licenses.model.api.ValidityPeriodClosed;
 public final class TestData {
 
 	private final LicensedProduct product = new BaseLicensedProduct("anti-human-magic.product", "0.2.1"); //$NON-NLS-1$ //$NON-NLS-2$
-	private final String feature = "anti-human-magic.product"; //$NON-NLS-1$
+	private final FeatureIdentifier feature = new BaseFeatureIdentifier("anti-human-magic.product"); //$NON-NLS-1$
 	private final User albert = new User("Albert_Rose@garden.ga", "os.family=*"); //$NON-NLS-1$ //$NON-NLS-2$
 	private final User elder = new User("elder@magic.com", "os=win"); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -61,7 +63,7 @@ public final class TestData {
 		return product;
 	}
 
-	public String feature() {
+	public FeatureIdentifier feature() {
 		return feature;
 	}
 
