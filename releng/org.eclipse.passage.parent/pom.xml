@@ -69,16 +69,8 @@
 										<repository>
 											<url>${released.baseline}</url>
 										</repository>
-										<repository>
-											<url>https://download.eclipse.org/passage/updates/release/3.1.0/</url>
-										</repository>
-										<repository>
-											<url>https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240/</url>
-										</repository>
-										<repository>
-											<url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</url>
-										</repository>
 									</baselines>
+									<baselineRepositoryReferences>include</baselineRepositoryReferences>
 									<skip>${skipAPIAnalysis}</skip>
 									<skipIfReplaced>false</skipIfReplaced>
 									<failOnResolutionError>true</failOnResolutionError>
@@ -215,7 +207,7 @@
 				<artifactId>tycho-p2-extras-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<executions>
-					<execution> 
+					<execution>
 						<id>compare-attached-artifacts-with-release</id>
 						<goals>
 							<goal>compare-version-with-baselines</goal>
@@ -230,10 +222,10 @@
 					</execution>
 				</executions>
 				<configuration>
-						<ignoredPatterns>
-							<pattern>META-INF/ECLIPSE_.RSA</pattern>
-							<pattern>META-INF/ECLIPSE_.SF</pattern>
-						</ignoredPatterns>
+					<ignoredPatterns>
+						<pattern>META-INF/ECLIPSE_.RSA</pattern>
+						<pattern>META-INF/ECLIPSE_.SF</pattern>
+					</ignoredPatterns>
 				</configuration>
 			</plugin>
 			<plugin>
