@@ -6,7 +6,7 @@ Bundle-Version: 3.1.2.qualifier
 Bundle-Name: %Bundle-Name
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Copyright: %Bundle-Copyright
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Fragment-Host: org.eclipse.passage.lic.net
 Import-Package: org.junit.jupiter.api;version="[5.11.0,6.0.0)",
  org.junit.jupiter.api.function;version="[5.11.0,6.0.0)",
