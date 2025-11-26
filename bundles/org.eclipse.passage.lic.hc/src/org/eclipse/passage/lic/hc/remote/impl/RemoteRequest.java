@@ -13,6 +13,8 @@
 package org.eclipse.passage.lic.hc.remote.impl;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.passage.lic.api.LicensedProduct;
@@ -54,13 +56,13 @@ public abstract class RemoteRequest<C extends Connection> implements Request<C> 
 	public final URL url() throws LicensingException {
 		try {
 			HostPort corrdinates = new FloatingServerCoordinates(access).get();
-			return new URL("http", //$NON-NLS-1$
+			return new URI("http", null, //$NON-NLS-1$
 					corrdinates.host(), //
-					Integer.parseInt(corrdinates.port()), //
-					parameters().query());
+					Integer.parseInt(corrdinates.port()), null, //
+					parameters().query(), null).toURL();
 		} catch (LicensingException //
 				| NumberFormatException //
-				| MalformedURLException e) {
+				| MalformedURLException | URISyntaxException e) {
 			throw new LicensingException(AccessMessages.Request_failed_to_compose_url, e);
 		}
 	}
