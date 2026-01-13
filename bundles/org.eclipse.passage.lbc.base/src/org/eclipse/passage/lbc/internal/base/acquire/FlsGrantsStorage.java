@@ -12,12 +12,14 @@
  *******************************************************************************/
 package org.eclipse.passage.lbc.internal.base.acquire;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
 import org.eclipse.passage.lic.equinox.EquinoxPassage;
 import org.eclipse.passage.lic.licenses.model.api.FeatureGrant;
 
 final class FlsGrantsStorage extends DefaultGrantsStorage {
 
-	private final String feature = "org.eclipse.passage.lbc.acquire.concurrent"; //$NON-NLS-1$
+	private final FeatureIdentifier feature = new BaseFeatureIdentifier("org.eclipse.passage.lbc.acquire.concurrent"); //$NON-NLS-1$
 
 	@Override
 	protected int capacity(FeatureGrant grant) {
