@@ -42,6 +42,13 @@
 		<url>https://github.com/iils-mbh/eclipse.passage.fls/issues/</url>
 	</issueManagement>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tycho-snapshots</id>
+			<url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<profiles>
 		<profile>
 			<id>baseline-check</id>
