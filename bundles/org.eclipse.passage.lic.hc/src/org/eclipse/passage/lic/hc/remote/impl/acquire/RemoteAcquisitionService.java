@@ -15,6 +15,7 @@ package org.eclipse.passage.lic.hc.remote.impl.acquire;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.ServiceInvocationResult;
 import org.eclipse.passage.lic.api.acquire.GrantAcquisition;
@@ -61,7 +62,7 @@ public final class RemoteAcquisitionService<C extends Connection> implements Lic
 	}
 
 	@Override
-	public ServiceInvocationResult<GrantAcquisition> acquire(LicensedProduct product, String feature) {
+	public ServiceInvocationResult<GrantAcquisition> acquire(LicensedProduct product, FeatureIdentifier feature) {
 		return new RemoteAcquire<>(equipment, acquire, source)
 				.request(new RemoteServiceData.OfFeature(product, feature));
 	}

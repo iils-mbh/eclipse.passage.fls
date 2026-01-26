@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -30,9 +29,11 @@ import org.eclipse.passage.lbc.internal.base.FlotingRequestHandled;
 import org.eclipse.passage.lbc.internal.base.acquire.NoGrantsAvailable;
 import org.eclipse.passage.lbc.internal.base.acquire.NotReleased;
 import org.eclipse.passage.lbc.internal.base.api.RawRequest;
+import org.eclipse.passage.lic.api.FeatureIdentifier;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
-import org.eclipse.passage.lic.base.FeatureIdentifier;
+import org.eclipse.passage.lic.base.BaseFeatureIdentifier;
+import org.eclipse.passage.lic.internal.net.FeatureId;
 import org.eclipse.passage.lic.internal.net.api.handle.NetResponse;
 import org.eclipse.passage.lic.licenses.model.api.GrantAcqisition;
 import org.eclipse.passage.lic.licenses.model.api.PersonalFeatureGrant;
@@ -54,7 +55,7 @@ public final class FloatingCycleActionsDryRunTest {
 	}
 
 	private List<PersonalFeatureGrant> ofFeature(EList<PersonalFeatureGrant> grants, RawRequest request) {
-		String feature = new FeatureIdentifier((Function<String, String>) request::parameter).get().get();
+		String feature = new FeatureId(request::parameter).get().get();
 		Predicate<PersonalFeatureGrant> featured = grant -> feature.equals(grant.getFeature().getIdentifier());
 		return grants.stream().filter(featured).collect(Collectors.toList());
 	}
@@ -92,15 +93,15 @@ public final class FloatingCycleActionsDryRunTest {
 	private GrantAcqisition acquisition() {
 		GrantAcqisition acqisition = LicensesFactory.eINSTANCE.createGrantAcqisition();
 		acqisition.setIdentifier("fake-acquisition-id"); //$NON-NLS-1$
-		acqisition.setFeature(feature());
+		acqisition.setFeature(feature().identifier());
 		acqisition.setGrant("fake-grant-id"); //$NON-NLS-1$
 		acqisition.setCreated(new Date());
 		acqisition.setUser(data.albert().id());
 		return acqisition;
 	}
 
-	private String feature() {
-		return data.feature() + ".not"; //$NON-NLS-1$
+	private FeatureIdentifier feature() {
+		return new BaseFeatureIdentifier(data.feature().identifier() + ".not"); //$NON-NLS-1$
 	}
 
 }
