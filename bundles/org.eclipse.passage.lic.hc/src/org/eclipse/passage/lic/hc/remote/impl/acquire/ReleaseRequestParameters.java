@@ -41,7 +41,7 @@ final class ReleaseRequestParameters extends RequestParameters {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected List<NamedData> actionParameters() throws LicensingException {
-		return List.of(new FeatureId(encode(feature.identifier())));
+		return List.of(new FeatureId(feature));
 	}
 
 }

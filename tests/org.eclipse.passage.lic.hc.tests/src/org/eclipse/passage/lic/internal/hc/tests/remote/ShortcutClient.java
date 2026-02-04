@@ -50,8 +50,7 @@ final class ShortcutClient<T> implements Client<ShortcutConnection, T> {
 			return new BaseServiceInvocationResult<>(
 					handler.read(new ResultsTransfered(connection), new TestRequestContext(data).get()));
 		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
+			fail(e);
 			return null; // unreachable
 		}
 	}

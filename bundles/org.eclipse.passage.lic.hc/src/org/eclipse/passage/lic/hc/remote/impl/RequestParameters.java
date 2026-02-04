@@ -13,8 +13,6 @@
  *******************************************************************************/
 package org.eclipse.passage.lic.hc.remote.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +24,6 @@ import org.eclipse.passage.lic.base.NamedData;
 import org.eclipse.passage.lic.base.ProductIdentifier;
 import org.eclipse.passage.lic.base.ProductVersion;
 import org.eclipse.passage.lic.hc.remote.QueryParameters;
-import org.eclipse.passage.lic.internal.hc.i18n.AccessMessages;
 import org.eclipse.passage.lic.internal.net.EncodingAlgorithm;
 import org.eclipse.passage.lic.internal.net.LicenseUser;
 import org.eclipse.passage.lic.internal.net.LicensingAction;
@@ -56,7 +53,7 @@ public abstract class RequestParameters implements QueryParameters {
 		parameters().stream()//
 				.map(NamedData.Writable<String>::new)//
 				.forEach(writable -> writable.write(params, "=", "&")); //$NON-NLS-1$ //$NON-NLS-2$
-		return '?' + params.toString();
+		return params.toString();
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -71,21 +68,13 @@ public abstract class RequestParameters implements QueryParameters {
 	@SuppressWarnings("rawtypes")
 	private List<NamedData> generalParameters() throws LicensingException {
 		return Arrays.asList( //
-				new ProductIdentifier(encode(product.identifier())), //
-				new ProductVersion(encode(product.version())), //
+				new ProductIdentifier(product.identifier()), //
+				new ProductVersion(product.version()), //
 				new LicensingAction(action()), //
 				new LicenseUser(access.getUser()), //
 				new EncodingAlgorithm(hash), //
 				new ServerAuthenticationType(access.getServer().getAuthentication().getType()), //
-				new ServerAuthenticationExpression(encode(access.getServer().getAuthentication().getExpression())));
-	}
-
-	protected String encode(String value) throws LicensingException {
-		try {
-			return URLEncoder.encode(value, "UTF-8"); //$NON-NLS-1$
-		} catch (UnsupportedEncodingException e) {
-			throw new LicensingException(AccessMessages.RequestParameters_encoding_failed, e);
-		}
+				new ServerAuthenticationExpression(access.getServer().getAuthentication().getExpression()));
 	}
 
 	protected abstract PassageAction action() throws LicensingException;
