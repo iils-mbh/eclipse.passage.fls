@@ -29,10 +29,6 @@ import org.eclipse.passage.lic.base.StringNamedData;
  */
 public final class FeatureId extends StringNamedData {
 
-	public FeatureId(String value) {
-		super(value);
-	}
-
 	public FeatureId(FeatureIdentifier feature) {
 		super(feature.identifier());
 	}

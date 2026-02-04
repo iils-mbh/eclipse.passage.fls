@@ -14,12 +14,14 @@ package org.eclipse.passage.lic.internal.hc.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
+import org.eclipse.jetty.util.Fields;
+import org.eclipse.jetty.util.Fields.Field;
+import org.eclipse.jetty.util.UrlEncoded;
 import org.eclipse.passage.lic.api.LicensedProduct;
 import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
@@ -48,33 +50,40 @@ public final class RemoteConditionsRequestTest {
 	private final int port = 1234;
 	private final String user = "some_user@some_mail.se"; //$NON-NLS-1$
 	private final String environment = "some_env"; //$NON-NLS-1$
-	private final String expression = "some_expression"; //$NON-NLS-1$
+	private final String expression = "some_value = *"; //$NON-NLS-1$
 
 	@Test
-	public void urlContainsAllParameters() throws IOException {
-		URL url = url();
+	public void urlContainsAllParameters() throws Exception {
+		URI url = url().toURI();
 		assertEquals(host, url.getHost());
 		assertEquals(port, url.getPort());
 		assertNotNull(url.getQuery());
-		queryHas(url, new ProductIdentifier("any").key()); //$NON-NLS-1$
-		queryHas(url, new ProductVersion("any").key()); //$NON-NLS-1$
-		queryHas(url, //
+
+		Fields fields = new Fields(true);
+		UrlEncoded.decodeUtf8To(url.getRawQuery(), fields);
+
+		queryHas(fields, new ProductIdentifier("any").key(), null); //$NON-NLS-1$
+		queryHas(fields, new ProductVersion("any").key(), null); //$NON-NLS-1$
+		queryHas(fields, //
 				new LicensingAction(new PassageAction.Of("any")).key(), //$NON-NLS-1$
 				new PassageAction.Mine().name());
-		queryHas(url, //
+
+		queryHas(fields, //
 				new ServerAuthenticationExpression("any").key(), //$NON-NLS-1$
 				expression);
-		queryHas(url, //
+		queryHas(fields, //
 				new ServerAuthenticationType("any").key(), //$NON-NLS-1$
 				environment);
-		queryHas(url, //
+		queryHas(fields, //
 				new LicenseUser(user).key(), //
 				user);
 	}
 
-	private void queryHas(URL url, String... values) {
-		for (String value : values) {
-			assertTrue(url.getQuery().contains(value));
+	private void queryHas(Fields queryFields, String key, String expectedValue) {
+		Field field = queryFields.get(key);
+		assertNotNull(field, "Missing query field with key: " + key); //$NON-NLS-1$
+		if (expectedValue != null) {
+			assertEquals(expectedValue, field.getValue());
 		}
 	}
 

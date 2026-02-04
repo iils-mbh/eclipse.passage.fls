@@ -32,7 +32,7 @@ final class ShortcutConnection implements Connection {
 	private NetResponse response;
 
 	public ShortcutConnection(QueryParameters parameters) throws LicensingException {
-		Arrays.stream(parameters.query().substring(1).split("&")) //$NON-NLS-1$
+		Arrays.stream(parameters.query().split("&")) //$NON-NLS-1$
 				.forEach(this::withParameter);
 	}
 
