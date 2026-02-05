@@ -52,6 +52,7 @@ jobs:
     - name: Build with Maven
       run: >-
         mvn clean verify --update-snapshots
+        --threads 1C
         -Pbaseline-check -Papi-check
 
     - name: Flatten P2 repository
