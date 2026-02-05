@@ -15,7 +15,7 @@
 <target name="org.eclipse.passage.baseline">
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<repository location="https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.0.1/"/>
+			<repository location="https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.1.0/"/>
 			<unit id="org.eclipse.passage.lbc.execute.feature.feature.group"/>
 			<unit id="org.eclipse.passage.lbc.fls.feature.feature.group"/>
 			<unit id="org.eclipse.passage.lic.hc.feature.feature.group"/>
