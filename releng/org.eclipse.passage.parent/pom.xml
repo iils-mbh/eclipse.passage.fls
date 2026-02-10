@@ -20,7 +20,7 @@
 
 	<groupId>org.eclipse.passage</groupId>
 	<artifactId>org.eclipse.passage.parent</artifactId>
-	<version>4.3.0-SNAPSHOT</version>
+	<version>4.3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -30,7 +30,7 @@
 
 		<tycho.scmUrl>scm:git:https://github.com/iils-mbh/eclipse.passage.fls.git</tycho.scmUrl>
 
-		<released.baseline>https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.2.0/</released.baseline>
+		<released.baseline>https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.3.0/</released.baseline>
 		<comparator.repo>https://github.com/iils-mbh/eclipse.passage.fls/releases/download/snapshot-latest/</comparator.repo>
 
 		<compare-version-with-baselines.skip>true</compare-version-with-baselines.skip>
