@@ -11,8 +11,8 @@ Still, contributions from anybody are welcome and we hope that the FLS will make
 ###### License 
 [![Eclipse License](https://img.shields.io/badge/License-EPL--2.0-thistle.svg)](https://github.com/eclipse/passage/blob/master/LICENSE) 
 
-###### Latest release [4.2.0](https://github.com/iils-mbh/eclipse.passage.fls/releases/tag/v4.2.0) aligns with [Eclipse Passage 4.2.0](https://github.com/eclipse-passage/passage/releases/tag/R4_2_0).
-[![Stable release P2 repository](https://img.shields.io/badge/P2_Repository-v4.2.0-lightgreen.svg)](https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.2.0/)
+###### Latest release [4.3.0](https://github.com/iils-mbh/eclipse.passage.fls/releases/tag/v4.3.0) aligns with [Eclipse Passage 4.3.0](https://github.com/eclipse-passage/passage/releases/tag/R4_3_0).
+[![Stable release P2 repository](https://img.shields.io/badge/P2_Repository-v4.3.0-lightgreen.svg)](https://github.com/iils-mbh/eclipse.passage.fls/releases/download/v4.3.0/)
 
 ###### Latest main branch build
 
