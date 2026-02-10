@@ -12,20 +12,14 @@
  *******************************************************************************/
 package org.eclipse.passage.lbc.internal.jetty;
 
-import java.io.InputStream;
-
 import org.eclipse.passage.lbc.internal.base.FlotingRequestHandled;
 import org.eclipse.passage.lbc.internal.base.api.FloatingState;
 import org.eclipse.passage.lbc.internal.base.api.FloatingStateFromGear;
 import org.eclipse.passage.lbc.jetty.FlsCommandScope;
-import org.eclipse.passage.lic.equinox.io.FileFromBundle;
-import org.eclipse.passage.lic.internal.execute.Logging;
 import org.eclipse.passage.lic.internal.jetty.JettyHandler;
 import org.eclipse.passage.lic.internal.jetty.interaction.LicensedJettyActivator;
 import org.eclipse.passage.lic.internal.net.connect.Storage;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 
 @SuppressWarnings("restriction")
 public final class FlsJettyActivator extends LicensedJettyActivator {
@@ -49,15 +43,7 @@ public final class FlsJettyActivator extends LicensedJettyActivator {
 
 	@Override
 	protected void configureLogging() {
-		new Logging(this::logConfig).configure();
-	}
-
-	private InputStream logConfig() throws Exception {
-		return new FileFromBundle(bundle(), "config/log4j2.xml").get(); //$NON-NLS-1$
-	}
-
-	private Bundle bundle() {
-		return FrameworkUtil.getBundle(getClass());
+		// should be done by end-product framework
 	}
 
 	@Override

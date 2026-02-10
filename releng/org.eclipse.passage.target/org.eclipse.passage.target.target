@@ -19,12 +19,12 @@
 			<unit id="org.eclipse.license.feature.group"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/passage/updates/release/4.2.0"/>
+			<repository location="https://download.eclipse.org/passage/updates/release/4.3.0"/>
 			<unit id="org.eclipse.passage.lic.execute.feature.feature.group"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/eclipse/updates/4.36/R-4.36-202505281830"/>
-			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.42.0"/>
+			<repository location="https://download.eclipse.org/eclipse/updates/4.37/R-4.37-202509050730"/>
+			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.43.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group"/>
 			<unit id="org.eclipse.equinox.sdk.feature.group"/>
 			<unit id="org.eclipse.sdk.feature.group"/>
