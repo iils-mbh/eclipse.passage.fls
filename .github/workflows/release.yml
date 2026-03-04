@@ -85,9 +85,9 @@ jobs:
         git commit --all --message="Release ${RELEASE_TAG}"
         
         # Prepare next development cycle
-        export NEW_VERSION="${VERSION%.*}.$((${VERSION##*.}+1))"
+        NEW_VERSION="${VERSION%.*}.$((${VERSION##*.}+1))"
         chmod +x releng/updateVersions.sh
-        releng/updateVersions.sh
+        releng/updateVersions.sh ${NEW_VERSION}
         
         # Update baseline repositories to new release
         releaseRepoURLPrefix='github.com/iils-mbh/eclipse.passage.fls/releases/download/v'

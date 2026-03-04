@@ -13,6 +13,7 @@
 #     Hannes Wellmann (IILS mbH) - initial API and implementation
 ###############################################################################
 
+NEW_VERSION=$1
 if [[ -z "${NEW_VERSION}" ]]; then
 	echo "ERROR: Required parameter NEW_VERSION not defined"
 	exit 1
