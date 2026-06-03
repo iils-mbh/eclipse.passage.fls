@@ -105,6 +105,7 @@ public final class AccessPacks implements Supplier<ServiceInvocationResult<Colle
 		return new DecodedContent(file, key, codec).get();
 	}
 
+	@SuppressWarnings("restriction")
 	private FloatingLicenseAccess from(byte[] content) throws LicensingException {
 		return new EObjectFromBytes<FloatingLicenseAccess>(content,
 				LicensesPackage.eINSTANCE.getFloatingLicenseAccess())//

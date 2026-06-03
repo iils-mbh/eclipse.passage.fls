@@ -38,6 +38,7 @@ public final class EObjectFromXmiResponse<T extends EObject> implements Response
 	}
 
 	@Override
+	@SuppressWarnings("restriction")
 	public T read(ResultsTransfered results, RequestContext context) throws LicensingException {
 		contentTypeIsExpected(results);
 		return new EObjectFromBytes<T>(decoded(results.data(), context), expected).get();

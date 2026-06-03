@@ -37,7 +37,6 @@ public final class EncodedResponse<T extends EObject> {
 		this.data = data;
 	}
 
-	@SuppressWarnings("restriction")
 	public NetResponse get() {
 		try {
 			return new FlsGearAwre()//

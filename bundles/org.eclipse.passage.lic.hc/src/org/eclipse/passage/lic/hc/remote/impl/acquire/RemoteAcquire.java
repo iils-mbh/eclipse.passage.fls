@@ -69,6 +69,7 @@ final class RemoteAcquire<C extends Connection> extends ServiceAny<C, GrantAcqui
 			return apiGrant(delegate.read(results, context));
 		}
 
+		@SuppressWarnings("restriction")
 		private GrantAcquisition apiGrant(org.eclipse.passage.lic.licenses.model.api.GrantAcqisition source) {
 			return new PGrantAcquisition(source).get();
 		}
