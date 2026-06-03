@@ -44,6 +44,7 @@ final class TestEquipment implements Supplier<Equipment> {
 		return new Equipment(keys(), codecs(), transports(), hashes());
 	}
 
+	@SuppressWarnings("restriction")
 	private StreamCodecRegistry codecs() {
 		return () -> new ReadOnlyRegistry<>(new BcStreamCodec(() -> product));
 	}
@@ -56,6 +57,7 @@ final class TestEquipment implements Supplier<Equipment> {
 		return () -> new ReadOnlyRegistry<StringServiceId, Hashes>(new MD5Hashes());
 	}
 
+	@SuppressWarnings("restriction")
 	private ConditionTransportRegistry transports() {
 		return () -> new ReadOnlyRegistry<>(new XmiConditionTransport());
 	}

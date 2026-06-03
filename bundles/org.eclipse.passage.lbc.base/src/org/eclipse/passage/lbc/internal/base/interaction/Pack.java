@@ -70,7 +70,6 @@ final class Pack {
 			).get(Collections.singletonMap(LicensesPackage.eNAME, LicensesPackage.eINSTANCE));
 		}
 
-		@SuppressWarnings("restriction")
 		private byte[] decoded() throws LicensingException {
 			return new FlsGearAwre()//
 					.withGear(g -> Optional.of(decoded(g)))//

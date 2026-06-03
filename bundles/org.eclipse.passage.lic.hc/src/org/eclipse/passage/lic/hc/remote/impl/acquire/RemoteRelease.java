@@ -87,6 +87,7 @@ final class RemoteRelease<C extends Connection>
 			return new ReleaseRequestParameters(product, data.payload().feature(), access, hash);
 		}
 
+		@SuppressWarnings("restriction")
 		private byte[] payload() throws LicensingException {
 			return new EObjectToBytes(new EGrantAcquisition(data.payload()).get()).get();
 		}
