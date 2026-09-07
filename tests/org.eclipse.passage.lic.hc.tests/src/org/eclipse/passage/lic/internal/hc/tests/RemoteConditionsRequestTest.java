@@ -14,7 +14,6 @@ package org.eclipse.passage.lic.internal.hc.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URI;
 import java.net.URL;
@@ -23,7 +22,6 @@ import org.eclipse.jetty.util.Fields;
 import org.eclipse.jetty.util.Fields.Field;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.eclipse.passage.lic.api.LicensedProduct;
-import org.eclipse.passage.lic.api.LicensingException;
 import org.eclipse.passage.lic.api.PassageAction;
 import org.eclipse.passage.lic.api.io.Hashes;
 import org.eclipse.passage.lic.api.io.HashesRegistry;
@@ -54,7 +52,9 @@ public final class RemoteConditionsRequestTest {
 
 	@Test
 	public void urlContainsAllParameters() throws Exception {
-		URI url = url().toURI();
+		URL realURL = new RemoteConditionsRequest<>(product(), access(), hashes()).url();
+
+		URI url = realURL.toURI();
 		assertEquals(host, url.getHost());
 		assertEquals(port, url.getPort());
 		assertNotNull(url.getQuery());
@@ -84,15 +84,6 @@ public final class RemoteConditionsRequestTest {
 		assertNotNull(field, "Missing query field with key: " + key); //$NON-NLS-1$
 		if (expectedValue != null) {
 			assertEquals(expectedValue, field.getValue());
-		}
-	}
-
-	private URL url() {
-		try {
-			return new RemoteConditionsRequest<>(product(), access(), hashes()).url();
-		} catch (LicensingException e) {
-			fail("Url composition on valid parameters must succssed"); //$NON-NLS-1$
-			throw new RuntimeException(e); // unreachable
 		}
 	}
 
