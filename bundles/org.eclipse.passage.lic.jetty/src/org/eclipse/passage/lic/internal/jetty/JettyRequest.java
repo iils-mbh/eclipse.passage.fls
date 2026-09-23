@@ -32,6 +32,10 @@ public final class JettyRequest implements NetRequest {
 		this.parameters = Request.extractQueryParameters(origin);
 	}
 
+	public Request origin() {
+		return origin;
+	}
+
 	@Override
 	public String parameter(String name) {
 		return parameters.getValue(name);
