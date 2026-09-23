@@ -16,6 +16,7 @@ package org.eclipse.passage.lic.internal.jetty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.util.Fields;
@@ -32,6 +33,10 @@ public final class JettyRequest implements NetRequest {
 		this.parameters = Request.extractQueryParameters(origin);
 	}
 
+	public Request origin() {
+		return origin;
+	}
+
 	@Override
 	public String parameter(String name) {
 		return parameters.getValue(name);
@@ -44,6 +49,11 @@ public final class JettyRequest implements NetRequest {
 			stream.read(content);
 		}
 		return content;
+	}
+
+	@Override
+	public Optional<String> remoteAddress() {
+		return Optional.ofNullable(Request.getRemoteAddr(origin));
 	}
 
 }
