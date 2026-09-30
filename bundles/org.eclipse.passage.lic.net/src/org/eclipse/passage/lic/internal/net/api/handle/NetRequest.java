@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 ArSysOp
+ * Copyright (c) 2020, 2026 ArSysOp
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -13,11 +13,19 @@
 package org.eclipse.passage.lic.internal.net.api.handle;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface NetRequest {
 
 	String parameter(String name);
 
 	byte[] content() throws IOException;
+
+	/**
+	 * Returns the address of the remote sender of this request, if available.
+	 */
+	default Optional<String> remoteAddress() {
+		return Optional.empty();
+	}
 
 }
