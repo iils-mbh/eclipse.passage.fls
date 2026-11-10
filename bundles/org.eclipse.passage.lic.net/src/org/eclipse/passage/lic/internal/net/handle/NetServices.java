@@ -39,7 +39,7 @@ public abstract class NetServices<R extends NetRequest> implements Chores<R> {
 		return chores//
 				.getOrDefault(//
 						action.get().get(), //
-						unknown -> new Failing(action))//
+						_ -> new Failing(action)) //
 				.apply(request)//
 				.getDone();
 	}

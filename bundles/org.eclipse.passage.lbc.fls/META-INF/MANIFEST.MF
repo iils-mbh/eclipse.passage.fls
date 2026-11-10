@@ -6,6 +6,6 @@ Bundle-Version: 4.7.1.qualifier
 Bundle-Name: %Bundle-Name
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Copyright: %Bundle-Copyright
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Bundle-ActivationPolicy: lazy
 Provide-Capability: licensing.feature;licensing.feature="org.eclipse.passage.lbc.fls.product";name="Eclipse Passage Floating License Server";version="4.7.1";provider="Eclipse Passage";agreements="licenses/epl-2.0.txt";level="warn"

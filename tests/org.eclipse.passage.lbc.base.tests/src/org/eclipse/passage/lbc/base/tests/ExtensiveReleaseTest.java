@@ -68,7 +68,7 @@ public final class ExtensiveReleaseTest {
 		FloatingState state = new EagerFloatingState(new TestLicFolder());
 		try (ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);) {
 			return IntStream.range(0, amount) //
-					.mapToObj(i -> pool.submit(new ProtectedAction(state)))//
+					.mapToObj(_ -> pool.submit(new ProtectedAction(state))) //
 					.collect(Collectors.toSet());
 		}
 	}
