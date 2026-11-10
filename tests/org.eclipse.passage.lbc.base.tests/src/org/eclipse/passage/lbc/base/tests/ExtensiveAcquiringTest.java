@@ -56,7 +56,7 @@ public final class ExtensiveAcquiringTest {
 		FloatingState state = new EagerFloatingState(new TestLicFolder());
 		try (ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10);) {
 			return IntStream.range(0, amount) //
-					.mapToObj(i -> pool.submit(new Acq(state)))//
+					.mapToObj(_ -> pool.submit(new Acq(state))) //
 					.collect(Collectors.toSet());
 		}
 	}

@@ -29,7 +29,7 @@ public final class LicensingAction extends BaseNamedData<PassageAction> {
 	}
 
 	public LicensingAction(PassageAction action) {
-		super(key -> action);
+		super(_ -> action);
 	}
 
 	@Override

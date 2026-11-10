@@ -118,11 +118,11 @@ public abstract class DefaultGrantsStorage implements GrantsStorage {
 	}
 
 	private Collection<GrantAcqisition> grantLocks(LicensedProduct product, String grant) {
-		return productLocks(product).computeIfAbsent(grant, id -> new HashSet<>());
+		return productLocks(product).computeIfAbsent(grant, _ -> new HashSet<>());
 	}
 
 	private Map<String, Collection<GrantAcqisition>> productLocks(LicensedProduct product) {
-		return locks.computeIfAbsent(product, p -> new HashMap<String, Collection<GrantAcqisition>>());
+		return locks.computeIfAbsent(product, _ -> new HashMap<String, Collection<GrantAcqisition>>());
 	}
 
 	private void logStateAlternation(String operation, GrantAcqisition grant, LicensedProduct product) {
